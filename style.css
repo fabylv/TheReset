@@ -44,6 +44,43 @@
     align-items: center;
     padding: 1.25rem 0 0.5rem;
   }
+
+  /* App intro */
+  .app-intro {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 20px 16px;
+    margin: 4px 0 24px;
+  }
+  .app-intro-headline {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .app-intro-body {
+    font-size: 0.85rem;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+  .app-intro-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .app-intro-pills span {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    color: var(--text2);
+    white-space: nowrap;
+  }
   .wordmark {
     font-family: var(--serif);
     font-size: 15px;
