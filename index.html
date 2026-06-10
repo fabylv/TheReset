@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Reset</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Tokens ── */
+    :root {
+      --bg:          #f5f0e8;
+      --surface:     #ede8de;
+      --surface-2:   #e2dbd0;
+      --text:        #2a2018;
+      --muted:       #7a6a52;
+      --accent:      #3d6b3d;
+      --accent-soft: #5a8a5a;
+      --circle:      #4a7a4a;
+      --glow:        rgba(74,122,74,0.18);
+      --border:      rgba(74,122,74,0.2);
+      --shadow:      rgba(42,32,24,0.08);
+    }
+    body.dark {
+      --bg:          #121c12;
+      --surface:     #1b2a1b;
+      --surface-2:   #223022;
+      --text:        #f0ead8;
+      --muted:       #9a8a6a;
+      --accent:      #7aaa7a;
+      --accent-soft: #9aca9a;
+      --circle:      #6a9a6a;
+      --glow:        rgba(106,154,106,0.22);
+      --border:      rgba(106,154,106,0.22);
+      --shadow:      rgba(0,0,0,0.3);
+    }
+
+    /* ── Base ── */
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      transition: background 0.4s, color 0.4s;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* ── Header ── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0 16px;
+    }
+    .site-name {
+      font-family: Georgia, serif;
+      font-size: 0.95rem;
+      font-weight: normal;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+    #theme-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      width: 38px; height: 38px;
+      font-size: 1.05rem;
+      cursor: pointer;
+      color: var(--muted);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, color 0.2s;
+      flex-shrink: 0;
+    }
+    #theme-btn:hover { background: var(--surface); color: var(--text); }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      padding: 8px 0 28px;
+    }
+    .hero h1 {
+      font-family: Georgia, serif;
+      font-size: clamp(1.25rem, 4.5vw, 1.65rem);
+      font-weight: normal;
+      line-height: 1.45;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .hero p {
+      font-size: 0.92rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* ── Breath ── */
+    #breath-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8px 0 28px;
+      transition: opacity 0.7s ease, transform 0.7s ease, padding 0.7s ease;
+      transform-origin: top center;
+    }
+    #breath-section.compact {
+      padding: 0 0 8px;
+      opacity: 0.4;
+      transform: scale(0.65);
+      pointer-events: none;
+    }
+    .breath-top-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+    .breath-ring-wrap {
+      position: relative;
+      width: 148px; height: 148px;
+      margin-bottom: 20px;
+    }
+    #breath-ring {
+      width: 148px; height: 148px;
+      border-radius: 50%;
+      border: 1.5px solid var(--circle);
+      background: var(--glow);
+    }
+    #breath-ring.active {
+      animation: breathe 12s ease-in-out infinite;
+    }
+    @keyframes breathe {
+      0%   { transform: scale(0.58); box-shadow: 0 0  0    0   var(--glow); opacity: 0.65; }
+      33%  { transform: scale(1.0);  box-shadow: 0 0 28px 12px var(--glow); opacity: 1;    }
+      67%  { transform: scale(1.0);  box-shadow: 0 0 28px 12px var(--glow); opacity: 1;    }
+      100% { transform: scale(0.58); box-shadow: 0 0  0    0   var(--glow); opacity: 0.65; }
+    }
+    #breath-phase {
+      font-family: Georgia, serif;
+      font-size: 1.25rem;
+      color: var(--accent);
+      min-height: 1.8rem;
+      text-align: center;
+    }
+    #breath-count {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 3px;
+      min-height: 1.2rem;
+      text-align: center;
+    }
+
+    /* ── Card ── */
+    #card-section {
+      opacity: 0;
+      transform: translateY(14px);
+      pointer-events: none;
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    #card-section.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .card {
+      background: var(--surface);
+      border-radius: 18px;
+      padding: 28px 24px 20px;
+      text-align: center;
+      box-shadow: 0 2px 20px var(--shadow);
+      border: 1px solid var(--border);
+    }
+    #card-text {
+      font-family: Georgia, serif;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--text);
+      margin-bottom: 22px;
+    }
+    .btn-done {
+      display: block;
+      width: 100%;
+      background: var(--accent);
+      color: #f5f0e8;
+      border: none;
+      border-radius: 50px;
+      padding: 13px 24px;
+      font-family: inherit;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      margin-bottom: 14px;
+    }
+    body.dark .btn-done { color: #121c12; }
+    .btn-done:hover:not(:disabled) { background: var(--accent-soft); }
+    .btn-done:active:not(:disabled) { transform: scale(0.97); }
+    .btn-done:disabled { opacity: 0.55; cursor: default; }
+    .btn-skip {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 0.8rem;
+      cursor: pointer;
+      text-decoration: underline;
+      display: inline-block;
+      padding: 2px;
+      transition: color 0.2s;
+    }
+    .btn-skip:hover { color: var(--text); }
+    #skips-note {
+      font-size: 0.73rem;
+      color: var(--muted);
+      margin-top: 6px;
+      min-height: 1rem;
+    }
+    #done-msg {
+      text-align: center;
+      font-family: Georgia, serif;
+      font-size: 0.95rem;
+      color: var(--accent);
+      margin-top: 14px;
+      min-height: 1.4rem;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    #done-msg.show { opacity: 1; }
+
+    /* ── Streak ── */
+    #streak-section {
+      margin-top: 40px;
+    }
+    .section-label {
+      font-family: Georgia, serif;
+      font-size: 0.92rem;
+      font-weight: normal;
+      color: var(--muted);
+      margin-bottom: 14px;
+      letter-spacing: 0.03em;
+    }
+    #streak-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .s-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      flex: 1;
+    }
+    .s-circle {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      transition: background 0.35s, border-color 0.35s;
+    }
+    .s-circle.done {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .s-circle.today {
+      border-color: var(--accent);
+      border-width: 2px;
+    }
+    .s-circle.done.today {
+      box-shadow: 0 0 0 3px var(--glow);
+    }
+    .s-label {
+      font-size: 0.65rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── Navigator ── */
+    #navigator-section {
+      margin-top: 48px;
+    }
+    .nav-intro {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .acc-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .acc-item:first-child { border-top: 1px solid var(--border); }
+    .acc-btn {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 16px 0;
+      text-align: left;
+      cursor: pointer;
+      color: var(--text);
+      font-family: Georgia, serif;
+      font-size: 0.95rem;
+      line-height: 1.45;
+      gap: 12px;
+      transition: color 0.2s;
+    }
+    .acc-btn:hover { color: var(--accent); }
+    .acc-chevron {
+      font-size: 0.7rem;
+      color: var(--muted);
+      flex-shrink: 0;
+      transition: transform 0.25s;
+    }
+    .acc-item.open .acc-chevron { transform: rotate(180deg); }
+    .acc-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+    .acc-item.open .acc-body { max-height: 400px; }
+    .acc-body p {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.75;
+      padding-bottom: 18px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      margin-top: 60px;
+      padding: 24px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    footer p {
+      font-size: 0.76rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── Util ── */
+    .hidden { display: none !important; }
+
+    @media (min-width: 600px) {
+      .container { padding: 0 40px 80px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <span class="site-name">The Reset</span>
+    <button id="theme-btn" title="Toggle light / dark mode">◐</button>
+  </header>
+
+  <div class="hero">
+    <h1>You don't have to optimize<br>anything right now.</h1>
+    <p>One small human thing. Every day.</p>
+  </div>
+
+  <!-- Breathing -->
+  <section id="breath-section">
+    <p class="breath-top-label">Start here. 60 seconds.</p>
+    <div class="breath-ring-wrap">
+      <div id="breath-ring"></div>
+    </div>
+    <div id="breath-phase"></div>
+    <div id="breath-count"></div>
+  </section>
+
+  <!-- Daily Card -->
+  <section id="card-section">
+    <div class="card">
+      <p id="card-text"></p>
+      <button class="btn-done" id="done-btn">I did this today ✓</button>
+      <button class="btn-skip" id="skip-btn">give me another</button>
+      <p id="skips-note"></p>
+    </div>
+    <p id="done-msg">Good. That counts.</p>
+  </section>
+
+  <!-- Streak -->
+  <section id="streak-section">
+    <p class="section-label">Your practice</p>
+    <div id="streak-row"></div>
+  </section>
+
+  <!-- Navigator -->
+  <section id="navigator-section">
+    <p class="section-label" style="margin-bottom:6px;">Navigating the AI World</p>
+    <p class="nav-intro">Calm, honest answers. No hype. No fear.</p>
+    <div id="accordion"></div>
+  </section>
+
+  <footer>
+    <p>You are enough. Rest is not the opposite of progress.<br>
+    Everything here is private — stored only on your device.</p>
+  </footer>
+
+</div>
+
+<script>
+'use strict';
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+function today() {
+  return new Date().toISOString().split('T')[0];
+}
+function getLS(k, fb) {
+  try { const v = localStorage.getItem(k); return v !== null ? JSON.parse(v) : fb; }
+  catch { return fb; }
+}
+function setLS(k, v) {
+  try { localStorage.setItem(k, JSON.stringify(v)); } catch {}
+}
+const DAY_LABELS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+// ── Theme ────────────────────────────────────────────────────────────────────
+function applyTheme(mode) {
+  document.body.classList.toggle('dark', mode === 'dark');
+  document.getElementById('theme-btn').textContent = mode === 'dark' ? '○' : '◐';
+  setLS('reset_theme', mode);
+}
+document.getElementById('theme-btn').addEventListener('click', () => {
+  applyTheme(document.body.classList.contains('dark') ? 'light' : 'dark');
+});
+applyTheme(getLS('reset_theme', 'light'));
+
+// ── Actions ──────────────────────────────────────────────────────────────────
+const ACTIONS = [
+  "Write one sentence by hand.",
+  "Eat your next meal without a screen.",
+  "Call someone instead of texting.",
+  "Sit outside for 5 minutes. No phone.",
+  "Write down 3 things you noticed with your eyes today.",
+  "Make something with your hands.",
+  "Read one page of a physical book.",
+  "Take a walk without headphones.",
+  "Have one conversation without checking your phone.",
+  "Cook something simple from scratch.",
+  "Write a letter you might never send.",
+  "Sit in silence for 5 minutes.",
+  "Draw something. Even a scribble counts.",
+  "Look out a window and just watch for a while.",
+  "Say something kind to someone, out loud.",
+  "Stretch slowly for 5 minutes. No goal.",
+  "Drink a glass of water. Nothing else at the same time.",
+  "Write down one worry, then set the paper aside.",
+  "Listen to one song without doing anything else.",
+  "Tidy one small space with your hands.",
+  "Notice something beautiful nearby. Sit with it.",
+  "Leave your phone in another room for one hour.",
+  "Write down three things that already went right today.",
+  "Step outside and feel the temperature for one minute.",
+  "Eat one meal slowly, paying attention to the taste.",
+  "Do nothing for five minutes. Fully nothing.",
+  "Write your name and today's date by hand. Notice how that feels.",
+  "Find one object near you and really look at it.",
+];
+
+function dailySeed() {
+  const d = new Date();
+  return (d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate()) % ACTIONS.length;
+}
+
+// ── Card ─────────────────────────────────────────────────────────────────────
+let cardOffset = 0;
+
+function getSkips() {
+  const s = getLS('reset_skips', null);
+  if (!s || s.date !== today()) return 0;
+  return s.count || 0;
+}
+function saveSkips(n) { setLS('reset_skips', { date: today(), count: n }); }
+function isDoneToday() { return getLS('reset_last_date') === today(); }
+
+function renderCard() {
+  const idx = (dailySeed() + cardOffset) % ACTIONS.length;
+  document.getElementById('card-text').textContent = ACTIONS[idx];
+
+  const doneBtn  = document.getElementById('done-btn');
+  const skipBtn  = document.getElementById('skip-btn');
+  const note     = document.getElementById('skips-note');
+  const doneMsg  = document.getElementById('done-msg');
+  const skips    = getSkips();
+  const MAX      = 3;
+
+  if (isDoneToday()) {
+    doneBtn.textContent = 'Done for today ✓';
+    doneBtn.disabled = true;
+    skipBtn.classList.add('hidden');
+    note.textContent = '';
+    doneMsg.classList.add('show');
+  } else {
+    doneBtn.disabled = false;
+    doneBtn.textContent = 'I did this today ✓';
+    doneMsg.classList.remove('show');
+    const left = MAX - skips;
+    if (left > 0) {
+      skipBtn.classList.remove('hidden');
+      note.textContent = skips > 0 ? `${left} change${left === 1 ? '' : 's'} left today` : '';
+    } else {
+      skipBtn.classList.add('hidden');
+      note.textContent = 'No more changes today — rest with this one.';
+    }
+  }
+}
+
+document.getElementById('done-btn').addEventListener('click', () => {
+  setLS('reset_last_date', today());
+  recordStreak(today());
+  renderCard();
+  renderStreak();
+});
+
+document.getElementById('skip-btn').addEventListener('click', () => {
+  const skips = getSkips();
+  if (skips >= 3) return;
+  saveSkips(skips + 1);
+  cardOffset++;
+  renderCard();
+});
+
+// ── Streak ───────────────────────────────────────────────────────────────────
+function getStreakDates() { return getLS('reset_streak', []); }
+
+function recordStreak(date) {
+  const arr = getStreakDates();
+  if (!arr.includes(date)) {
+    arr.push(date);
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 60);
+    const pruned = arr.filter(d => new Date(d) >= cutoff);
+    setLS('reset_streak', pruned);
+  }
+}
+
+function renderStreak() {
+  const done = new Set(getStreakDates());
+  const row = document.getElementById('streak-row');
+  row.innerHTML = '';
+  const todayStr = today();
+
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const ds = d.toISOString().split('T')[0];
+    const isToday = ds === todayStr;
+    const isDone  = done.has(ds);
+
+    const wrap = document.createElement('div');
+    wrap.className = 'i s-day';
+
+    const circle = document.createElement('div');
+    circle.className = 'i s-circle' + (isDone ? ' done' : '') + (isToday ? ' today' : '');
+    circle.title = ds;
+
+    const lbl = document.createElement('span');
+    lbl.className = 'i s-label';
+    lbl.textContent = DAY_LABELS[d.getDay()];
+
+    wrap.appendChild(circle);
+    wrap.appendChild(lbl);
+    row.appendChild(wrap);
+  }
+}
+renderStreak();
+
+// ── Breathing ────────────────────────────────────────────────────────────────
+const ring      = document.getElementById('breath-ring');
+const phaseEl   = document.getElementById('breath-phase');
+const countEl   = document.getElementById('breath-count');
+const breathSec = document.getElementById('breath-section');
+const cardSec   = document.getElementById('card-section');
+
+let breathTimer   = null;
+let breathStart   = null;
+let breathDone    = false;
+const CYCLE_S     = 12;
+
+function tickBreath() {
+  const elapsed = (Date.now() - breathStart) / 1000;
+  const phase   = elapsed % CYCLE_S;
+
+  let label, secs;
+  if (phase < 4)      { label = 'Inhale'; secs = Math.ceil(4  - phase); }
+  else if (phase < 8) { label = 'Hold';   secs = Math.ceil(8  - phase); }
+  else                { label = 'Exhale'; secs = Math.ceil(12 - phase); }
+
+  phaseEl.textContent = label;
+  countEl.textContent = secs + 's';
+
+  if (elapsed >= CYCLE_S && !breathDone) {
+    breathDone = true;
+    clearInterval(breathTimer);
+    finishBreath();
+  }
+}
+
+function finishBreath() {
+  ring.classList.remove('active');
+  phaseEl.textContent = 'Good.';
+  countEl.textContent = '';
+  setLS('reset_breath_done', today());
+
+  setTimeout(() => {
+    breathSec.classList.add('compact');
+    renderCard();
+    cardSec.classList.add('visible');
+  }, 900);
+}
+
+if (getLS('reset_breath_done') === today()) {
+  // Already did it today — skip straight to card
+  breathDone = true;
+  phaseEl.textContent = 'Rest.';
+  countEl.textContent = '';
+  breathSec.classList.add('compact');
+  renderCard();
+  cardSec.classList.add('visible');
+} else {
+  // Auto-start after page settles
+  setTimeout(() => {
+    breathStart = Date.now();
+    ring.classList.add('active');
+    breathTimer = setInterval(tickBreath, 150);
+    tickBreath();
+  }, 500);
+}
+
+// ── AI Navigator ─────────────────────────────────────────────────────────────
+const QA = [
+  {
+    q: "Will AI take my job?",
+    a: "Maybe some parts of it. Probably not the whole thing. The work that's hardest to automate is work that requires your presence — your judgment, your relationships, your ability to read a room. That's worth cultivating. The rest is worth watching, not panicking about."
+  },
+  {
+    q: "Do I need to learn AI tools?",
+    a: "You don't need to learn everything. You might find one or two tools genuinely useful and ignore the rest. The pressure to 'stay ahead' is mostly marketing. Learn what serves you. Leave what doesn't."
+  },
+  {
+    q: "Is it okay to not use AI?",
+    a: "Yes. Completely. Not every tool is for every person or every moment. Doing something slowly, by hand, with real attention — that has value that nothing can automate. You're not falling behind by being human."
+  },
+  {
+    q: "How do I set boundaries with AI at work?",
+    a: "The same way you'd set any boundary: by naming what you need and being consistent. You're allowed to say 'I'd rather write this myself.' You're allowed to ask for time to think without a chatbot in the loop. These are reasonable things."
+  },
+  {
+    q: "What should I actually use AI for?",
+    a: "The things you find tedious, repetitive, or just need a starting point for. First drafts. Summarizing long documents. Researching something unfamiliar. Not for the parts of your work that feel meaningful — those are worth keeping."
+  },
+  {
+    q: "I feel left behind. Everyone else seems to know this.",
+    a: "They don't, mostly. There is a lot of performance of confidence around AI right now. Most people are quietly as uncertain as you are. You are not behind. You're just honest about where you are."
+  },
+  {
+    q: "Will AI make everything worse?",
+    a: "Some things, probably. Other things, it might genuinely help. The future isn't written yet, and your choices — what you pay attention to, what you support, how you spend your time — still matter. You are not powerless here."
+  }
+];
+
+const accordionEl = document.getElementById('accordion');
+QA.forEach(({ q, a }) => {
+  const item = document.createElement('div');
+  item.className = 'acc-item';
+  item.innerHTML = `
+    <button class="acc-btn">
+      <span>${q}</span>
+      <span class="acc-chevron">▾</span>
+    </button>
+    <div class="acc-body"><p>${a}</p></div>`;
+  item.querySelector('.acc-btn').addEventListener('click', () => {
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.acc-item.open').forEach(el => el.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+  accordionEl.appendChild(item);
+});
+</script>
+</body>
+</html>
