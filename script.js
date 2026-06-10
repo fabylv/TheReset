@@ -53,16 +53,26 @@ const STORAGE = {
     const streak = STORAGE.get('streak') || {};
     const dots = document.getElementById('practiceDots');
     dots.innerHTML = '';
-    const days = ['S','M','T','W','T','F','S'];
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
+    const DAY_LABELS = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    // Find the Monday of the current week
+    const now = new Date();
+    const jsDay = now.getDay(); // 0=Sun, 1=Mon ... 6=Sat
+    const daysFromMon = (jsDay + 6) % 7; // Mon=0 ... Sun=6
+    const monday = new Date(now);
+    monday.setDate(now.getDate() - daysFromMon);
+
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(monday);
+      d.setDate(monday.getDate() + i);
       const key = d.toISOString().slice(0, 10);
+      const isFuture = key > TODAY;
+      const isToday  = key === TODAY;
       const el = document.createElement('div');
       el.className = 'practice-day'
         + (streak[key] ? ' done' : '')
-        + (i === 0 ? ' today' : '');
-      el.textContent = days[d.getDay()];
+        + (isToday  ? ' today'  : '')
+        + (isFuture ? ' future' : '');
+      el.textContent = DAY_LABELS[i];
       dots.appendChild(el);
     }
   }

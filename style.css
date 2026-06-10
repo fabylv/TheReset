@@ -292,7 +292,8 @@
     color: var(--text3);
   }
   .practice-day.done { background: var(--accent2); border-color: var(--accent2); color: #e8f5ec; }
-  .practice-day.today { border-color: var(--accent); color: var(--accent); }
+  .practice-day.today { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+  .practice-day.future { opacity: 0.3; }
 
   /* NAVIGATOR */
   .nav-section { padding-top: 2rem; }
