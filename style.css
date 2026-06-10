@@ -11,7 +11,7 @@
     --serif: 'Lora', Georgia, serif;
     --sans: 'Inter', system-ui, sans-serif;
   }
-  .light {
+  body.light {
     --bg: #f5f0e8;
     --surface: #fffdf8;
     --surface2: #ede8dc;

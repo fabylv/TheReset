@@ -195,14 +195,13 @@ const STORAGE = {
   });
 
   // THEME
-  const savedTheme = STORAGE.get('theme');
+  const savedTheme = STORAGE.get('theme') || 'dark';
   if (savedTheme === 'light') {
-    document.getElementById('app').classList.add('light');
+    document.body.classList.add('light');
     document.getElementById('themeBtn').textContent = '☾';
   }
   document.getElementById('themeBtn').addEventListener('click', () => {
-    const app = document.getElementById('app');
-    const isLight = app.classList.toggle('light');
+    const isLight = document.body.classList.toggle('light');
     document.getElementById('themeBtn').textContent = isLight ? '☾' : '☀';
     STORAGE.set('theme', isLight ? 'light' : 'dark');
   });
