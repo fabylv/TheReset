@@ -224,7 +224,15 @@ const STORAGE = {
   });
 
   buildAccordion();
-  runPhase(0);
+
+  // Begin button — user starts breathing on tap
+  document.getElementById('beginBreath').addEventListener('click', () => {
+    document.getElementById('beginBreath').style.display = 'none';
+    document.getElementById('breathProgress').style.display = '';
+    document.getElementById('skipBreath').style.display = '';
+    document.getElementById('breathInstruct').textContent = 'Breathe in slowly through your nose';
+    runPhase(0);
+  });
 
 // ── PWA: Service Worker ───────────────────────────────────────────────────────
 if ('serviceWorker' in navigator) {
