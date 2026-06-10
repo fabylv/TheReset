@@ -225,3 +225,44 @@ const STORAGE = {
 
   buildAccordion();
   runPhase(0);
+
+// ── PWA: Service Worker ───────────────────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  });
+}
+
+// ── PWA: Add to Home Screen nudge ─────────────────────────────────────────────
+let _installPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  _installPrompt = e;
+  // Show nudge after 20s if not already installed
+  setTimeout(() => {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+    if (!isStandalone && _installPrompt && !localStorage.getItem('reset_install_dismissed')) {
+      showInstallNudge();
+    }
+  }, 20000);
+});
+
+function showInstallNudge() {
+  const nudge = document.getElementById('install-nudge');
+  if (nudge) nudge.classList.add('show');
+}
+
+function triggerInstall() {
+  if (_installPrompt) {
+    _installPrompt.prompt();
+    _installPrompt.userChoice.then(() => { _installPrompt = null; });
+  }
+  const nudge = document.getElementById('install-nudge');
+  if (nudge) nudge.classList.remove('show');
+}
+
+function dismissInstall() {
+  localStorage.setItem('reset_install_dismissed', '1');
+  const nudge = document.getElementById('install-nudge');
+  if (nudge) nudge.classList.remove('show');
+}

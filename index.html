@@ -4,9 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="A daily sanctuary for people burned out by AI and digital overload. One small human thing. Every day.">
-<meta name="theme-color" content="#0d1f16">
+<meta name="theme-color" content="#3d6b3d">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="The Reset">
+<link rel="manifest" href="/manifest.json" />
+<link rel="apple-touch-icon" href="/icons/icon-192.png" />
 <title>The Reset — One small human thing. Every day.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -93,5 +96,12 @@
 </nav>
 
 <script src="script.js"></script>
+<!-- Install nudge -->
+<div id="install-nudge">
+  <span>📱 Save The Reset to your home screen</span>
+  <button onclick="triggerInstall()">Add</button>
+  <button onclick="dismissInstall()" style="background:none;border:none;color:inherit;cursor:pointer;font-size:1.1rem;padding:4px;">✕</button>
+</div>
+
 </body>
 </html>

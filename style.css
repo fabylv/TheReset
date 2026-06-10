@@ -349,3 +349,33 @@
     .breath-dot { transition: none; }
     .whisper-card { transition: none; }
   }
+
+/* ── Install Nudge ── */
+#install-nudge {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 14px 20px;
+  align-items: center;
+  gap: 12px;
+  z-index: 999;
+  font-size: 0.88rem;
+  color: var(--text);
+  box-shadow: 0 -2px 12px var(--shadow);
+}
+#install-nudge.show { display: flex; }
+#install-nudge span { flex: 1; }
+#install-nudge button:first-of-type {
+  background: var(--accent);
+  color: #f5f0e8;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 18px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+body.dark #install-nudge button:first-of-type { color: #121c12; }
